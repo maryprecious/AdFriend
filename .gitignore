@@ -1,0 +1,13 @@
+# Modules
+
+node_module/
+
+# Config files
+
+package-lock.json
+
+# Enviroment Variables
+
+.env
+*.local
+
