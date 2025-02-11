@@ -4,8 +4,18 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [color, setColor] = useState('#000000');
+  const handleClick = async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.scripting.executeScript({
+      target: {tabId: tab.id},
+      function: (color) => {
+        document.body.style.backgroundColor = color;
+        alert('Background color changed to ' + color);
+      },
+      args: [color]
+    });
+  }
   return (
     <>
       <div>
@@ -18,8 +28,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <input type="color" onChange={(e) => setColor(e.currentTarget.value)} />
+        <button onClick={handleClick}>
+          Click Me
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
